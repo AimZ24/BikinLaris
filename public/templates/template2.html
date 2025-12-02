@@ -1,0 +1,61 @@
+<!-- Template 2: Dark Elegant Poster -->
+<div style="
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  width: 800px;
+  height: 1200px;
+  color: #f0f0f0;
+  padding: 0;
+  text-align: left;
+  position: relative;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+">
+  <img src="" style="
+    width: 100%;
+    height: 55%;
+    object-fit: cover;
+    flex-shrink: 0;
+  " alt="Product" />
+  
+  <!-- Gradient Overlay -->
+  <div style="
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 600px;
+    background: linear-gradient(to top, rgba(26,26,26,0.8), transparent);
+    pointer-events: none;
+  "></div>
+  
+  <div style="
+    padding: 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  ">
+    <h1 style="
+      font-size: 56px;
+      font-weight: 700;
+      margin: 0 0 15px 0;
+      color: #f0f0f0;
+      line-height: 1.1;
+    ">{{headline}}</h1>
+    
+    <p style="
+      color: #aaa;
+      font-size: 28px;
+      font-weight: 400;
+      margin: 0 0 30px 0;
+    ">{{subheadline}}</p>
+    
+    <div style="
+      color: #ffd700;
+      font-weight: 700;
+      font-size: 44px;
+      text-align: right;
+    ">{{price}}</div>
+  </div>
+</div>

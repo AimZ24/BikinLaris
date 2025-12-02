@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BikinLaris – AI Digital Rebranding & Instant Website Builder</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero">
+    <h1>🚀 BikinLaris</h1>
+    <p>AI-Powered Product Branding, Marketing & Instant Website Builder untuk UMKM Indonesia</p>
+  </header>
+
+  <main class="container">
+    <!-- Upload Section -->
+    <section class="upload-section">
+      <h2>📸 Upload Foto Produk</h2>
+      <form id="uploadForm">
+        <input 
+          type="file" 
+          id="productImage" 
+          name="image" 
+          accept="image/*" 
+          required 
+          placeholder="Pilih foto produk..." />
+        
+        <input 
+          type="text" 
+          id="productName" 
+          name="productName"
+          placeholder="Nama Produk (contoh: Teh Herbal Premium)" 
+          required />
+        
+        <input 
+          type="number" 
+          id="productPrice" 
+          name="price"
+          placeholder="Harga (IDR, contoh: 25000)" 
+          required />
+        
+        <input 
+          type="text" 
+          id="whatsapp" 
+          name="whatsapp"
+          placeholder="Nomor WhatsApp (contoh: 62812345678 atau +62812345678)" 
+          required />
+        
+        <button type="submit">✨ Proses dengan AI</button>
+      </form>
+    </section>
+
+    <!-- Results Section -->
+    <section class="result-section" id="resultSection" style="display:none;">
+      <h2>📊 Konten AI yang Dihasilkan</h2>
+      
+      <div id="description"></div>
+      <div id="caption"></div>
+      <div id="seo"></div>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem;">
+        <button id="generatePosterBtn">🎨 Buat Poster</button>
+        <button id="oneClickMarketingBtn">🚀 One-Click Marketing</button>
+        <button id="generateMicrositeBtn">🌐 Buat Website</button>
+      </div>
+    </section>
+
+    <!-- Poster Section -->
+    <section class="poster-section" id="posterSection" style="display:none;">
+      <h2>🎨 Preview Poster</h2>
+      
+      <div style="margin-bottom: 1.5rem;">
+        <label for="templateSelect">Pilih Template Poster:</label>
+        <select id="templateSelect">
+          <option value="template1">Template 1 - Modern Minimalist</option>
+          <option value="template2">Template 2 - Dark Elegant</option>
+          <option value="template3">Template 3 - Vibrant Pop</option>
+        </select>
+      </div>
+      
+      <div class="poster-editor-wrapper">
+        <div id="posterEditorControls" style="margin-bottom:1rem; display:flex; gap:10px; align-items:center;">
+          <button id="toggleEditBtn">✏️ Edit Poster</button>
+          <button id="applyEditsBtn" style="display:none;">✅ Apply Edits to Canvas</button>
+          <button id="generateBgBtn">🖼️ Generate Background (AI)</button>
+          <label style="display:flex;align-items:center;gap:8px;">Font size: <input id="fontSizeRange" type="range" min="12" max="88" value="40" style="width:140px;"></label>
+          <label style="display:flex;align-items:center;gap:8px;">Color: <input id="colorPicker" type="color" value="#2b2b2b"></label>
+        </div>
+
+        <div id="posterEditor" style="position:relative; display:inline-block;">
+          <canvas id="posterCanvas" width="800" height="1200"></canvas>
+          <!-- overlays will be injected here -->
+          <div id="overlayLayer" style="position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none;"></div>
+        </div>
+        <div id="backgroundVariants" style="margin-top:12px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;"></div>
+      </div>
+
+      <div style="text-align: center;">
+        <button id="downloadPosterBtn">📥 Download Poster (PNG)</button>
+      </div>
+    </section>
+
+    <!-- Microsite Section -->
+    <section class="microsite-section" id="micrositeSection" style="display:none;">
+      <h2>🌐 Preview Microsite</h2>
+      <p style="color: #666; margin-bottom: 1rem;">Website Anda siap dibagikan! Lihat preview di bawah:</p>
+      <iframe id="micrositeIframe" style="width:100%;height:700px;border:none;border-radius:16px;"></iframe>
+    </section>
+  </main>
+
+  <footer style="text-align: center; padding: 2rem; color: #666; background: white; margin-top: 3rem; border-top: 1px solid #e0e0e0;">
+    <p>💡 BikinLaris - Powered by Google Gemini AI</p>
+    <p style="font-size: 0.9rem; margin-top: 0.5rem;">© 2024 BikinLaris. Platform untuk UMKM Indonesia.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
