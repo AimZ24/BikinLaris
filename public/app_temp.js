@@ -12,14 +12,23 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         const productName = document.getElementById('productName').value;
-        const bahanBaku = parseFloat(document.getElementById('bahanBaku').value);
-        const tenagaKerja = parseFloat(document.getElementById('tenagaKerja').value);
-        const biayaLain = parseFloat(document.getElementById('biayaLain').value);
+        const bahanBaku = parseFloat(document.getElementById('bahanBaku').value) || 0;
+        const tenagaKerja = parseFloat(document.getElementById('tenagaKerja').value) || 0;
+        const biayaLain = parseFloat(document.getElementById('biayaLain').value) || 0;
 
         const btn = hppForm.querySelector('button[type="submit"]');
         const originalText = btn.textContent;
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menghitung...';
+        btn.textContent = 'Menghitung...';
         btn.disabled = true;
+
+        resultSection.style.display = 'block';
+        document.getElementById('priceRecommendation').innerHTML = `
+            <div class="text-center py-3">
+                <div class="spinner-border text-primary"></div>
+                <p class="mt-2">Menganalisis harga kompetitor...</p>
+            </div>
+        `;
+        resultSection.scrollIntoView({ behavior: 'smooth' });
 
         try {
             const response = await fetch('/api/calculate-hpp', {
@@ -34,8 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             currentHPPData = data;
             displayHPPResults(data);
-            resultSection.style.display = 'block';
-            resultSection.scrollIntoView({ behavior: 'smooth' });
         } catch (error) {
             console.error('Error:', error);
             alert('Error: ' + error.message);
@@ -56,9 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const priceHtml = `
             <div class="mb-4">
-                <h5><i class="bi bi-graph-up-arrow me-2"></i>Harga Jual Rekomendasi</h5>
-                <div class="display-4 text-success fw-bold">Rp ${rec.recommendedPrice.toLocaleString('id-ID')}</div>
-                <div class="mt-2">
+                <h4 class="text-success mb-3">
+                    <i class="bi bi-star-fill me-2"></i>
+                    Harga Jual Optimal: Rp ${rec.recommendedPrice.toLocaleString('id-ID')}
+                </h4>
+                <div class="alert alert-info">
                     <strong>Margin Profit:</strong> ${rec.profitMargin}%<br>
                     <strong>Profit per Unit:</strong> Rp ${(rec.recommendedPrice - data.hpp.total).toLocaleString('id-ID')}
                 </div>
@@ -257,159 +266,5 @@ document.addEventListener('DOMContentLoaded', () => {
             if (linksContainer.querySelectorAll('.link-item').length > 1) {
                 linkItem.remove();
             } else {
-                alert('Minimal harus ada 1 link');
-            }
-        });
-    }
-
-    // Theme Selection Logic - using event delegation
-    const themeGallery = document.getElementById('themeGallery');
-    if (themeGallery) {
-        themeGallery.addEventListener('click', function (e) {
-            const themeCard = e.target.closest('.theme-card');
-            if (!themeCard) return;
-
-            // Remove selected class from all cards
-            document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
-
-            // Add selected class to clicked card
-            themeCard.classList.add('selected');
-
-            // Get theme colors from data attributes
-            const bgColor = themeCard.getAttribute('data-bg');
-            const btnColor = themeCard.getAttribute('data-btn');
-            const textColor = themeCard.getAttribute('data-text');
-
-            // Update color inputs
-            document.getElementById('bgColor').value = bgColor;
-            document.getElementById('btnColor').value = btnColor;
-            document.getElementById('textColor').value = textColor;
-        });
-    }
-
-    bioForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const businessName = document.getElementById('businessName').value;
-        const tagline = document.getElementById('tagline').value;
-        const bgColor = document.getElementById('bgColor').value;
-        const btnColor = document.getElementById('btnColor').value;
-        const textColor = document.getElementById('textColor').value;
-        const layout = document.getElementById('layoutStyle').value;
-
-        // Handle profile image upload
-        const profileImageInput = document.getElementById('profileImage');
-        let profileImageBase64 = null;
-
-        if (profileImageInput.files && profileImageInput.files[0]) {
-            const file = profileImageInput.files[0];
-            profileImageBase64 = await new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result);
-                reader.readAsDataURL(file);
-            });
-        }
-
-        // Collect links with platform
-        const links = [];
-        const linkItems = linksContainer.querySelectorAll('.link-item');
-        linkItems.forEach(item => {
-            const title = item.querySelector('.link-title').value;
-            const url = item.querySelector('.link-url').value;
-            const platform = item.querySelector('.link-platform').value;
-            if (title && url) {
-                links.push({ title, url, platform });
-            }
-        });
-
-        if (links.length === 0) {
-            alert('Tambahkan minimal 1 link');
-            return;
-        }
-
-        const btn = bioForm.querySelector('button[type="submit"]');
-        const originalText = btn.textContent;
-        btn.textContent = 'Generating...';
-        btn.disabled = true;
-
-        try {
-            const response = await fetch('/api/generate-bio-website', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    businessName,
-                    tagline,
-                    links,
-                    profileImage: profileImageBase64,
-                    theme: {
-                        backgroundColor: bgColor,
-                        buttonColor: btnColor,
-                        textColor: textColor,
-                        layout: layout
-                    }
-                })
-            });
-
-            if (!response.ok) throw new Error(`Error: ${response.statusText}`);
-            const data = await response.json();
-            if (data.error) throw new Error(data.error);
-
-            currentBioHTML = data.bioWebsiteHTML;
-            displayBioWebsite(data);
-            bioPreview.style.display = 'block';
-            bioPreview.scrollIntoView({ behavior: 'smooth' });
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error: ' + error.message);
-        } finally {
-            btn.textContent = originalText;
-            btn.disabled = false;
-        }
-    });
-
-    function displayBioWebsite(data) {
-        const iframe = document.getElementById('bioIframe');
-        iframe.contentWindow.document.open();
-        iframe.contentWindow.document.write(data.bioWebsiteHTML);
-        iframe.contentWindow.document.close();
-
-        const suggestions = document.getElementById('aiSuggestions');
-        const hostedUrl = `${window.location.origin}${data.previewUrl}`;
-        suggestions.innerHTML = `
-            <div class="mb-3">
-                <strong><i class="bi bi-link-45deg me-2"></i>Your Bio Link:</strong><br>
-                <div class="input-group mt-2">
-                    <input type="text" class="form-control" value="${hostedUrl}" id="bioLinkUrl" readonly>
-                    <button class="btn btn-primary" onclick="
-                        navigator.clipboard.writeText('${hostedUrl}');
-                        this.textContent = '✓ Copied!';
-                        setTimeout(() => this.textContent = 'Copy', 2000);
-                    ">Copy</button>
-                    <a href="${data.previewUrl}" target="_blank" class="btn btn-success">Open</a>
-                </div>
-            </div>
-            <strong><i class="bi bi-robot me-2"></i>AI Suggestions:</strong><br>
-            <strong>Improved Tagline:</strong> ${data.aiSuggestions.improvedTagline}<br>
-            <strong>SEO Keywords:</strong> ${data.aiSuggestions.seoKeywords}
-        `;
-    }
-
-    // Download Bio Website
-    const downloadBtn = document.getElementById('downloadBioBtn');
-    if (downloadBtn) {
-        downloadBtn.addEventListener('click', () => {
-            if (!currentBioHTML) {
-                alert('Generate bio website terlebih dahulu');
-                return;
-            }
-
-            const blob = new Blob([currentBioHTML], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'bio-website.html';
-            a.click();
-            URL.revokeObjectURL(url);
-        });
-    }
-});
+                const bgColor = document.getElementById('bgColor').value;
+                const btnColor = document.getElementById('btnColor').value;

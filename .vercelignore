@@ -1,0 +1,6 @@
+node_modules
+.env
+uploads/*
+bio-pages/*
+*.log
+.DS_Store

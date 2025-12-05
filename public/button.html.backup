@@ -1,0 +1,319 @@
+<!-- BikinLaris - Main Application -->
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BikinLaris - AI Asisten UMKM</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" border-radius:
+        8px; margin-bottom: 10px; } </style>
+</head>
+
+<body>
+
+    <div class="min-vh-100 d-flex flex-column align-items-center py-5 px-3">
+
+        <!-- Logo dan Judul -->
+        <div class="text-center mb-4">
+            <div class="d-flex align-items-center justify-content-center mb-3">
+                <img src="logo.png" alt="BikinLaris Logo" style="width: 60px; height: 60px; margin-right: 12px;">
+                <span class="fs-3 fw-bold text-dark">BikinLaris</span>
+            </div>
+            <p class="text-muted">Platform AI untuk UMKM Indonesia</p>
+        </div>
+
+        <!-- Main Container -->
+        <div class="card shadow-lg p-4 p-md-5 w-100" style="max-width: 900px;">
+
+            <!-- Tab Navigation -->
+            <ul class="nav nav-tabs mb-4" id="mainTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="hpp-tab" data-bs-toggle="tab" data-bs-target="#hpp"
+                        type="button">
+                        <i class="bi bi-calculator me-2"></i>Kalkulator HPP
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="recommend-tab" data-bs-toggle="tab" data-bs-target="#recommend"
+                        type="button">
+                        <i class="bi bi-lightbulb me-2"></i>Rekomendasi Produk
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="bio-tab" data-bs-toggle="tab" data-bs-target="#bio" type="button">
+                        <i class="bi bi-link-45deg me-2"></i>Bio Website
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="mainTabsContent">
+
+                <!-- ========== TAB 1: HPP CALCULATOR ========== -->
+                <div class="tab-pane fade show active" id="hpp" role="tabpanel">
+                    <form id="hppCalculatorForm">
+                        <div class="mb-4">
+                            <label for="productName" class="form-label fw-bold">
+                                <i class="bi bi-box-seam me-2"></i>Nama Produk
+                            </label>
+                            <input type="text" id="productName" class="form-control form-control-lg"
+                                placeholder="Contoh: Nasi Goreng Spesial" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="bahanBaku" class="form-label fw-bold">
+                                <i class="bi bi-basket me-2"></i>Biaya Bahan Baku
+                            </label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text">Rp</span>
+                                <input type="number" id="bahanBaku" class="form-control" placeholder="5000" min="0"
+                                    step="100" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="tenagaKerja" class="form-label fw-bold">
+                                <i class="bi bi-people me-2"></i>Biaya Tenaga Kerja
+                            </label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text">Rp</span>
+                                <input type="number" id="tenagaKerja" class="form-control" placeholder="2000" min="0"
+                                    step="100" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="biayaLain" class="form-label fw-bold">
+                                <i class="bi bi-receipt me-2"></i>Biaya Lain-lain
+                            </label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text">Rp</span>
+                                <input type="number" id="biayaLain" class="form-control" placeholder="1000" min="0"
+                                    step="100" value="0" required>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-generate fw-bold shadow-lg">
+                                <i class="bi bi-calculator me-2"></i>Hitung HPP & Harga Optimal
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Results Section -->
+                    <section id="resultSection" style="display:none;" class="mt-5">
+                        <h3 class="mb-4"><i class="bi bi-check-circle me-2"></i>Hasil Kalkulasi</h3>
+
+                        <div class="card mb-4 border-success">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0"><i class="bi bi-calculator me-2"></i>HPP</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <strong>Bahan Baku:</strong>
+                                        <div class="fs-5 text-primary" id="displayBahanBaku">Rp 0</div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <strong>Tenaga Kerja:</strong>
+                                        <div class="fs-5 text-primary" id="displayTenagaKerja">Rp 0</div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <strong>Lain-lain:</strong>
+                                        <div class="fs-5 text-primary" id="displayBiayaLain">Rp 0</div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <strong>Total HPP:</strong>
+                                        <div class="fs-4 fw-bold text-success" id="displayHPP">Rp 0</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4 border-info">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="bi bi-graph-up-arrow me-2"></i>Harga Jual Optimal</h5>
+                            </div>
+                            <div class="card-body" id="priceRecommendation">
+                                <div class="text-center py-3">
+                                    <div class="spinner-border text-primary"></div>
+                                    <p class="mt-2">Menganalisis...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button id="oneClickMarketingBtn" class="btn btn-success">
+                                <i class="bi bi-rocket-takeoff me-2"></i>One-Click Marketing
+                            </button>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- ========== TAB 2: PRODUCT RECOMMENDATION ========== -->
+                <div class="tab-pane fade" id="recommend" role="tabpanel">
+                    <h3 class="mb-4"><i class="bi bi-lightbulb me-2"></i>Rekomendasi Produk UMKM</h3>
+
+                    <form id="recommendForm">
+                        <div class="mb-4">
+                            <label for="category" class="form-label fw-bold">Kategori Bisnis</label>
+                            <select id="category" class="form-select form-select-lg" required>
+                                <option value="">Pilih Kategori</option>
+                                <option value="makanan">Makanan & Minuman</option>
+                                <option value="fashion">Fashion & Pakaian</option>
+                                <option value="kerajinan">Kerajinan Tangan</option>
+                                <option value="kecantikan">Kecantikan & Kosmetik</option>
+                                <option value="digital">Produk Digital</option>
+                                <option value="lainnya">Lainnya</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="budget" class="form-label fw-bold">Budget Modal</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text">Rp</span>
+                                <input type="number" id="budget" class="form-control" placeholder="5000000" min="100000"
+                                    step="100000" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="targetMarket" class="form-label fw-bold">Target Market</label>
+                            <input type="text" id="targetMarket" class="form-control form-control-lg"
+                                placeholder="Contoh: Mahasiswa, Ibu Rumah Tangga, Pekerja Kantoran" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="location" class="form-label fw-bold">Lokasi Usaha</label>
+                            <input type="text" id="location" class="form-control form-control-lg"
+                                placeholder="Contoh: Jakarta, Bandung, Surabaya" required>
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-generate fw-bold shadow-lg">
+                                <i class="bi bi-lightbulb me-2"></i>Dapatkan Rekomendasi
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Recommendations Results -->
+                    <section id="recommendResults" style="display:none;" class="mt-5">
+                        <h4 class="mb-4"><i class="bi bi-bar-chart me-2"></i>Rekomendasi Produk</h4>
+                        <div id="recommendationsContainer"></div>
+
+                        <div class="alert alert-info mt-4" id="marketAnalysis"></div>
+
+                        <div class="card mt-4">
+                            <div class="card-header bg-warning">
+                                <h5 class="mb-0"><i class="bi bi-lightbulb me-2"></i>Tips Bisnis</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul id="tipsList"></ul>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- ========== TAB 3: BIO WEBSITE GENERATOR ========== -->
+                <div class="tab-pane fade" id="bio" role="tabpanel">
+                    <h3 class="mb-4"><i class="bi bi-link-45deg me-2"></i>Bio Website Generator</h3>
+
+                    <form id="bioForm">
+                        <div class="mb-4">
+                            <label for="businessName" class="form-label fw-bold">Nama Bisnis</label>
+                            <input type="text" id="businessName" class="form-control form-control-lg"
+                                placeholder="Contoh: Toko Kue Ibu Siti" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="profileImage" class="form-label fw-bold">Profile Image (Optional)</label>
+                            <input type="file" id="profileImage" class="form-control" accept="image/*">
+                            <small class="text-muted">Upload foto profile atau kosongkan untuk menggunakan inisial
+                                nama</small>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="tagline" class="form-label fw-bold">Tagline</label>
+                            <input type="text" id="tagline" class="form-control form-control-lg"
+                                placeholder="Contoh: Kue Enak, Harga Terjangkau" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Links</label>
+                            <small class="text-muted d-block mb-2">Pilih platform untuk menampilkan icon di
+                                button</small>
+                            <div id="linksContainer">
+                                <!-- Links will be added here dynamically -->
+                            </div>
+                            <button type="button" id="addLinkBtn" class="btn btn-outline-primary mt-2">
+                                <i class="bi bi-plus-circle me-2"></i>Tambah Link
+                            </button>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Theme</label>
+
+                            <!-- Theme Tabs -->
+                            <ul class="nav nav-pills mb-3" id="themeTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="custom-tab" data-bs-toggle="pill"
+                                        data-bs-target="#custom-theme" type="button">
+                                        Customizable
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="curated-tab" data-bs-toggle="pill"
+                                        data-bs-target="#curated-theme" type="button">
+                                        Curated
+                                    </button>
+                                </li>
+                            </ul>
+
+                            <!-- Theme Content -->
+                            <div class="tab-content" id="themeTabContent">
+                                <!-- Custom Theme -->
+                                <div class="tab-pane fade show active" id="custom-theme">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <select id="layoutStyle" class="form-select">
+                                                <option value="modern">Modern (Rounded)</option>
+                                                <option value="minimal">Minimal (Square)</option>
+                                                <option value="vibrant">Vibrant (Pill)</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="d-flex justify-content-center">
+                                            <button type="submit" class="btn btn-generate fw-bold shadow-lg">
+                                                <i class="bi bi-globe me-2"></i>Generate Bio Website
+                                            </button>
+                                        </div>
+                    </form>
+
+                    <!-- Bio Website Preview -->
+                    <section id="bioPreview" style="display:none;" class="mt-5">
+                        <h4 class="mb-3"><i class="bi bi-eye me-2"></i>Preview Bio Website</h4>
+                        <div class="alert alert-success" id="aiSuggestions"></div>
+                        <iframe id="bioIframe"
+                            style="width:100%;height:600px;border:1px solid #ddd;border-radius:12px;"></iframe>
+                        <div class="mt-3 d-grid gap-2">
+                            <button id="downloadBioBtn" class="btn btn-primary">
+                                <i class="bi bi-download me-2"></i>Download HTML
+                            </button>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <!-- Main App Logic -->
+    <script src="app.js"></script>
+</body>
+
+</html>
