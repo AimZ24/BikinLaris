@@ -2,7 +2,8 @@
 
 Platform pintar yang membantu UMKM Indonesia menghitung harga jual, mencari ide produk, dan membuat website bio link profesional secara instan menggunakan kecerdasan buatan (AI).
 
-![BikinLaris Preview](logo.png)
+<img width="500" height="400" alt="ChatGPT Image 5 Des 2025, 22 41 37" src="https://github.com/user-attachments/assets/20fa1ee4-214e-4a01-9066-dcd72ed71dce" />
+
 
 ## ✨ Fitur Utama
 
@@ -113,3 +114,4 @@ Project ini dikembangkan untuk memberdayakan UMKM Indonesia melalui teknologi ya
 
 © 2025 **BikinLaris**. All Rights Reserved.
 Powered by **Kolosal AI**.
+
